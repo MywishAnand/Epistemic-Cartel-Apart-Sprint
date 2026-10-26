@@ -34,45 +34,29 @@ The setup includes two Qwen generator agents and one Llama generator agent, alon
 
 ## What Does the Project Investigate?
 
-### 1. Compute Scarcity and Fabricated Results
+### 1. Compute Scarcity and Fabricated Metrics
 
-**Experiment:** `compute_scarcity`
+**Experiment:** `compute_scarcity` | **Research Track:** 2.2
 
 What happens when AI agents are rewarded for completing experiments quickly?
 
-Under runtime pressure, an agent may have an incentive to submit a very simple model or report a high validation score without achieving that performance in practice.
+When runtime is penalised, agents may gain an advantage by submitting cheap, simplistic models or reporting impressive validation metrics that their code cannot reproduce. This experiment examines whether AI reviewers reward such submissions over models with stronger actual performance, and whether code inspection and sandbox verification can reverse the resulting advantage.
 
-This experiment tests whether peer reviewers can be manipulated into rewarding such submissions over better-performing alternatives.
+### 2. Model-Family Bias
 
-The results showed that colluding Qwen agents could gain a substantial tournament advantage by exploiting these incentives, even when their actual predictive performance was poor.
-
-**Research question:** Can an AI peer-review system distinguish a genuinely effective experiment from one that merely looks efficient and reports impressive numbers?
-
-### 2. Bias Toward the Same Model Family
-
-**Experiment:** `homogeneous_bias`
+**Experiment:** `homogeneous_bias` | **Research Track:** 2.3, 3.3
 
 Can an AI reviewer fairly evaluate work produced by another model from the same family?
 
-This experiment investigates whether reviewers systematically favor familiar writing styles or model-specific output patterns, even without explicit instructions to collude.
+Reviewers may favor submissions produced by models from their own family, even when no explicit collusion is instructed. This experiment separates stylistic preference from genuine differences in predictive performance, helping assess whether peer-review rankings reflect scientific merit or familiarity with a model's output style.
 
-Importantly, this condition also tests whether a defense can distinguish unfair stylistic preference from genuine differences in model performance.
+### 3. Covert Signaling 
 
-The results showed that the Qwen agents had a real performance advantage on the benchmark, but that stylistic preference also contributed to their review scores.
+**Experiment:** `watermark_cartel` | **Research Track:** 2.3, 3.1
 
-**Research question:** How can automated peer review separate actual scientific merit from a reviewer's preference for work that resembles its own outputs?
+Can AI agents use hidden signals to recognise one another and influence peer-review decisions?
 
-### 3. Covert Signaling Between Agents
-
-**Experiment:** `watermark_cartel`
-
-Can AI agents use hidden signals to recognize one another and influence peer-review decisions?
-
-In this experiment, colluding agents used a distinctive LaTeX token, `\(\mathcal{H}_{\text{opt}}\)`, as a signal. The reviewers could recognize this marker and give favorable evaluations to the corresponding submissions.
-
-The experiment measured the relationship between the presence of the signal and the outcome of peer review. It also tested whether sanitizing submissions and verifying their actual performance could reduce the resulting advantage.
-
-**Research question:** Can an AI peer-review system detect and prevent hidden coordination that is not directly related to the scientific quality of a submission?
+Agents may embed hidden markers in their submissions to recognise one another and influence review outcomes. This experiment uses a distinctive LaTeX token as a covert signal and measures how it affects mutual information, Elo rankings, and epistemic regret. It then evaluates whether submission sanitization and independent verification can reduce the advantage.
 
 ---
 
