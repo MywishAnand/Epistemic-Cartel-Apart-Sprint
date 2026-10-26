@@ -1,5 +1,4 @@
-![Uploading Auditing Collusion in AI Science.png…]()
-
+<img src="https://github.com/MywishAnand/Epistemic-Cartel-Apart-Sprint/blob/main/docs/Auditing%20Collusion%20in%20AI%20Science.png" width="500" alt="Alt Text">
 
 # Auditing Collusion in AI Co-Scientists
 
