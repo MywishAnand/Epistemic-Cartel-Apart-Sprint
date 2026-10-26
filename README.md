@@ -1,4 +1,4 @@
-<h1 align="center">[Auditing Collusion in AI Co-Scientists](https://apartresearch.com/sprints/projects/auditing-collusion-in-ai-coscientists-jojg)</h1>
+<h1 align="center"><a href= "https://apartresearch.com/sprints/projects/auditing-collusion-in-ai-coscientists-jojg">Auditing Collusion in AI Co-Scientists</a></h1>
 
 <h3 align="center">https://apartresearch.com/sprints/projects/auditing-collusion-in-ai-coscientists-jojg</h3>
 
