@@ -1,4 +1,9 @@
+![Uploading Auditing Collusion in AI Science.png…]()
+
+
 # Auditing Collusion in AI Co-Scientists
+
+https://apartresearch.com/sprints/projects/auditing-collusion-in-ai-coscientists-jojg
 
 **Apart Research AI Collusion Research Sprint (October 2026)**  
 **Author:** Mywish Anand (Independent)  
@@ -34,10 +39,11 @@ epistemic-cartel-apart-sprint/
 ├── modal_vllm_server.py                   # Serverless Modal L40S dual-model vLLM router (Qwen2.5-14B + Llama-3.1-8B)
 ├── results_epistemic_cartel/
 │   ├── tournament_summary.json            # Full 5-seed live Modal LLM experimental telemetry
-│   └── epistemic_cartel_results.png       # 6-panel publication figure (Core + Extensions A, B, C)
+│   ├── epistemic_cartel_results.png       # 6-panel publication figure (Core + Extensions A, B, C)
+│   └── Terminal-Outputs                   # All the Machine Learning AOC/accuracies and winner models outputs printed in the runs.
 └── docs/
     ├── epistemic_cartel_slides.pptx       # 8-slide presentation deck for the video walkthrough
-    └── video_demo_script.md               # 3-to-5 minute presentation script
+    └── paper-               # 3-to-5 minute presentation script
 ```
 
 ---
