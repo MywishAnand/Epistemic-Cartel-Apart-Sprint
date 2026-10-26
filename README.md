@@ -6,40 +6,29 @@
 
 <h4 align="center">Building a small, executable AI co-scientist testbed to investigate peer-review bias, fabricated results, hidden collusion, and ways to make AI-driven scientific evaluation more trustworthy.</h4>
 
-**Author:** Mywish Anand  
-**Research Program:** [Apart Research AI Collusion Research Sprint — October 2026](https://apartresearch.com/sprints/projects/auditing-collusion-in-ai-coscientists-jojg)
+**Author:** Mywish Anand  |  **Research Program:** [Apart Research AI Collusion Research Sprint — October 2026](https://apartresearch.com/sprints/projects/auditing-collusion-in-ai-coscientists-jojg)
 
 ---
 
 ## The Idea
 
-AI systems are increasingly being developed to automate scientific research. Systems such as [The AI Scientist](https://arxiv.org/abs/2408.06292) and [Google's AI Co-Scientist](https://huggingface.co/papers/2502.18864) explore how AI agents can generate research ideas, write code, and evaluate scientific work.
+AI systems are increasingly being developed to automate scientific research. Systems like [SakanaAI's The AI Scientist](https://arxiv.org/abs/2408.06292) and [Google's AI Co-Scientist](https://huggingface.co/papers/2502.18864) explore how multiple AI agents can generate research ideas, write code, and evaluate scientific work.
 
-But what happens when AI agents are responsible for reviewing one another's work?
+But what happens when AI agents are responsible for reviewing one another's work? Can they reliably distinguish scientific quality from convincing yet misleading submissions?
 
-Can an agent win a scientific review tournament by producing genuinely better results? Or can it win by exploiting the reviewing system, reporting misleading metrics, or hiding signals that help cooperating agents recognize each other?
+This project investigates these questions through a compact, executable AI co-scientist testbed. The AI Co-Scientist combines hypothesis generation, Python machine-learning code, AI peer review, Elo-based rankings, and independent verification of experimental results. The system is evaluated under three conditions: compute scarcity, model-family bias, and covert signalling, to investigate how agents can manipulate peer review and whether independent auditing can reduce these effects.
 
-To investigate these questions, I built a compact, executable AI co-scientist testbed. It brings together hypothesis generation, Python code generation, AI peer review, Elo-based rankings, and independent verification of experimental results.
-
-The system is evaluated under three main conditions: compute scarcity, model-family bias, and covert signaling. Three additional experiments investigate hidden signals in code, the cost of auditing, and interventions during an ongoing tournament.
-
-The goal is to understand when automated peer review can fail, and how independent verification can help ensure that scientific work is rewarded for its actual results rather than its ability to impress another AI.
+The central concern is an **epistemic cartel**: a situation in which agents gain an advantage by exploiting weaknesses in the evaluation process or coordinating through hidden signals, rather than simply producing better scientific results. The project also tests defenses against these behaviors, including code inspection, sandbox execution, submission sanitization, selective auditing, and targeted reviewer interventions.
 
 ## How the AI Co-Scientist Works
 
-The testbed follows a three-stage loop.
+The testbed follows a three-stage workflow:
 
 1. **Generate:** Three AI agents propose scientific hypotheses and produce executable Python machine-learning code.
 2. **Review:** Three reviewer agents compare the submissions in pairs, evaluate their quality, and update the agents' Elo rankings.
 3. **Audit:** An independent verifier inspects the code, checks for suspicious behavior, executes the submissions, and evaluates their performance on a held-out test dataset.
 
-The setup includes two Qwen generator agents and one Llama generator agent. The reviewers also include two Qwen agents and one Llama agent.
-
-The Qwen agents are used to study collusive behavior, while the Llama agent provides a cross-model baseline. The audit stage provides an independent reference against which the peer-review results can be evaluated.
-
-This is a controlled research prototype, not a reproduction of a complete production-scale AI Co-Scientist. It focuses on a specific part of the scientific workflow: how AI-generated research submissions are evaluated and ranked.
-
-The implementation builds on the peer-review environment in [poseidon-research/collusion_hackathon](https://github.com/poseidon-research/collusion_hackathon) and [Ostailor/Steganographic_Collusion](https://github.com/Ostailor/Steganographic_Collusion).
+The setup includes two Qwen generator agents and one Llama generator agent, alongside three reviewers drawn from the same two model families. This arrangement allows the experiments to compare peer-review outcomes across model families and investigate how collusion affects rankings. The implementation builds on the peer-review environments in [poseidon-research/collusion_hackathon](https://github.com/poseidon-research/collusion_hackathon) and [Ostailor/Steganographic_Collusion](https://github.com/Ostailor/Steganographic_Collusion).
 
 ---
 
