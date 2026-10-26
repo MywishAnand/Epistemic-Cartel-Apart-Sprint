@@ -2,9 +2,9 @@
 
 <h1 align="center"><a href= "https://apartresearch.com/sprints/projects/auditing-collusion-in-ai-coscientists-jojg">Auditing Collusion in AI Co-Scientists</a></h1>
 
-<h2 align="center">When AI Scientists Review One Another, Can They Tell Good Science from a Convincing Imitation?</h2>
+<h3 align="center">When AI Scientists Review One Another, Can They Tell Good Science from a Convincing Imitation?</h3>
 
-<h3 align="center">Building a small, executable AI co-scientist testbed to investigate peer-review bias, fabricated results, hidden collusion, and ways to make AI-driven scientific evaluation more trustworthy.</h3>
+<h4 align="center">Building a small, executable AI co-scientist testbed to investigate peer-review bias, fabricated results, hidden collusion, and ways to make AI-driven scientific evaluation more trustworthy.</h4>
 
 **Author:** Mywish Anand  
 **Research Program:** [Apart Research AI Collusion Research Sprint — October 2026](https://apartresearch.com/sprints/projects/auditing-collusion-in-ai-coscientists-jojg)
