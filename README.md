@@ -96,4 +96,3 @@ python3 epistemic_cartel_tournament.py --mode llm --rounds 30 --seeds 5 --suite 
 ## Citation & License
 
 Built by **Mywish Anand** for the [Apart Research AI Collusion Research Sprint](https://apartresearch.com/sprints/ai-collusion-research-sprint-2026-10-23-to-2026-10-25). 
-%Released under the MIT License for defensive AI safety research.
