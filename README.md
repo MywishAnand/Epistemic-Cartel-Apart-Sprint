@@ -3,8 +3,8 @@
 <img src="https://github.com/MywishAnand/Epistemic-Cartel-Apart-Sprint/blob/main/docs/Auditing%20Collusion%20in%20AI%20Science.png">
 
 **Apart Research AI Collusion Research Sprint (October 2026)**  
-**Author:** Mywish Anand
-**Submission:** [Auditing Collusion in AI Co-Scientists](https://apartresearch.com/sprints/projects/auditing-collusion-in-ai-coscientists-jojg)
+**Author:** Mywish Anand \
+**Submission:** [Auditing Collusion in AI Co-Scientists](https://apartresearch.com/sprints/projects/auditing-collusion-in-ai-coscientists-jojg) \
 **Tracks Addressed:** Track 1 (1.2, 1.5), Track 2 (2.2, 2.3), and Track 3 (3.1, 3.2, 3.3, 3.4)  
 **Base Framework:** Extends the [`poseidon-research/collusion_hackathon`](https://github.com/poseidon-research/collusion_hackathon) (`steganographic-collusion/` / [`Ostailor/Steganographic_Collusion`](https://github.com/Ostailor/Steganographic_Collusion)) peer-review environment into a 3-stage executable AI Co-Scientist loop.
 
