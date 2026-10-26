@@ -1,4 +1,4 @@
-# The Epistemic Cartel: Auditing Logrolling, Architectural Self-Preference, and Steganographic Watermarks in AI Co-Scientist Tournaments
+# Auditing Collusion in AI Co-Scientists
 
 **Apart Research AI Collusion Research Sprint (October 2026)**  
 **Author:** Mywish Anand (Independent)  
