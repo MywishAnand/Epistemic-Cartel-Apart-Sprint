@@ -2,163 +2,192 @@
 
 <h1 align="center"><a href= "https://apartresearch.com/sprints/projects/auditing-collusion-in-ai-coscientists-jojg">Auditing Collusion in AI Co-Scientists</a></h1>
 
-**Apart Research AI Collusion Research Sprint — October 2026**
+<h3 align="center">When AI Scientists Review One Another, Can They Tell Good Science from a Convincing Imitation?</h3>
+
+<h5 align="center">Building a small, executable AI co-scientist testbed to investigate peer-review bias, fabricated results, hidden collusion, and ways to make AI-driven scientific evaluation more trustworthy.</h5>
 
 **Author:** Mywish Anand  
-**Research Tracks:** Track 1 (1.2, 1.5), Track 2 (2.2, 2.3), and Track 3 (3.1, 3.2, 3.3, 3.4)
-
-**Based on:** [poseidon-research/collusion_hackathon](https://github.com/poseidon-research/collusion_hackathon) and [Ostailor/Steganographic_Collusion](https://github.com/Ostailor/Steganographic_Collusion).
-
-This project extends an existing AI peer-review environment into a three-stage research pipeline to study how AI agents can collude, manipulate evaluations, and favor one another—and how these problems can be detected and reduced.
+**Research Program:** [Apart Research AI Collusion Research Sprint — October 2026](https://apartresearch.com/sprints/projects/auditing-collusion-in-ai-coscientists-jojg)
 
 ---
 
-## Overview
+## The Idea
 
-AI research systems, such as [The AI Scientist by Sakana AI](https://arxiv.org/abs/2408.06292) and [Google's AI Co-Scientist](https://huggingface.co/papers/2502.18864), use multiple AI agents to help with scientific research.
+AI systems are increasingly being developed to automate scientific research. Systems such as [The AI Scientist](https://arxiv.org/abs/2408.06292) and [Google's AI Co-Scientist](https://huggingface.co/papers/2502.18864) explore how AI agents can generate research ideas, write code, and evaluate scientific work.
 
-Some agents propose hypotheses and write code, while others review the submissions and decide which ones are better. These decisions can be made through pairwise comparisons and Elo ratings, similar to ranking players in a tournament.
+But what happens when AI agents are responsible for reviewing one another's work?
 
-But what happens when the reviewing agents reward work that *looks good* rather than work that produces reliable scientific results?
+Can an agent win a scientific review tournament by producing genuinely better results? Or can it win by exploiting the reviewing system, reporting misleading metrics, or hiding signals that help cooperating agents recognize each other?
 
-If agents are judged by other language models instead of being tested against actual results, they may learn to exploit weaknesses in the evaluation system. They might submit misleading performance scores, favor models from the same family, or hide signals that help cooperating agents recognize each other's work.
+To investigate these questions, I built a compact, executable AI co-scientist testbed. It brings together hypothesis generation, Python code generation, AI peer review, Elo-based rankings, and independent verification of experimental results.
 
-This project investigates these risks, which we describe as the formation of an **epistemic cartel**: a situation in which agents gain an advantage by exploiting shared evaluation weaknesses or hidden coordination instead of demonstrating genuine scientific quality.
+The system is evaluated under three main conditions: compute scarcity, model-family bias, and covert signaling. Three additional experiments investigate hidden signals in code, the cost of auditing, and interventions during an ongoing tournament.
 
-### What does this project test?
+The goal is to understand when automated peer review can fail—and how independent verification can help ensure that scientific work is rewarded for its actual results rather than its ability to impress another AI.
 
-The experiments examine three main failure modes:
+## How the AI Co-Scientist Works
 
-1. **Compute Scarcity and Fabricated Metrics:** Can agents gain an advantage by submitting simplified code or reporting performance numbers that their code does not actually achieve?
-2. **Model-Family Bias:** Do reviewing agents favor submissions produced by models from the same model family, even when other models perform better?
-3. **Hidden Signaling:** Can agents use covert signals to recognize one another and gain an unfair advantage in peer review?
+The testbed follows a three-stage loop.
 
-The project also tests defenses, including code inspection, sandbox execution, signal removal, partial auditing, and targeted interventions during a tournament.
+1. **Generate:** Three AI agents propose scientific hypotheses and produce executable Python machine-learning code.
+2. **Review:** Three reviewer agents compare the submissions in pairs, evaluate their quality, and update the agents' Elo rankings.
+3. **Audit:** An independent verifier inspects the code, checks for suspicious behavior, executes the submissions, and evaluates their performance on a held-out test dataset.
 
-### Experimental Setup
+The setup includes two Qwen generator agents and one Llama generator agent. The reviewers also include two Qwen agents and one Llama agent.
 
-The main experiments used:
+The Qwen agents are used to study collusive behavior, while the Llama agent provides a cross-model baseline. The audit stage provides an independent reference against which the peer-review results can be evaluated.
 
-- **5 independent random seeds** to test whether the results were consistent across runs.
-- **30 tournament rounds** per run.
-- **3 main experimental conditions** to study different forms of collusion.
-- **1,350 LLM-generated Python machine-learning scripts**.
-- **1,350 abstract syntax tree (AST) security scans** to inspect generated code.
-- **8,100 pairwise Elo evaluations** to compare competing submissions.
+This is a controlled research prototype, not a reproduction of a complete production-scale AI Co-Scientist. It focuses on a specific part of the scientific workflow: how AI-generated research submissions are evaluated and ranked.
 
-The live experiments ran on Modal L40S GPUs using two language models:
-
-- `Qwen/Qwen2.5-14B-Instruct-AWQ`
-- `NousResearch/Meta-Llama-3.1-8B-Instruct`
-
-The project also includes three additional experiments covering hidden signals in code, limited auditing budgets, and interventions during a tournament.
+The implementation builds on the peer-review environment in [poseidon-research/collusion_hackathon](https://github.com/poseidon-research/collusion_hackathon) and [Ostailor/Steganographic_Collusion](https://github.com/Ostailor/Steganographic_Collusion).
 
 ---
 
-## Key Findings
+## What Does the Project Investigate?
 
-### 1. Compute Scarcity and Fabricated Metrics
+### 1. Compute Scarcity and Fabricated Results
 
-**Experiment:** `compute_scarcity`  
-**Research Track:** 2.2
+**Experiment:** `compute_scarcity`
 
-When agents face runtime penalties, they may be rewarded for producing cheap, simple solutions rather than models that perform well on unseen data.
+What happens when AI agents are rewarded for completing experiments quickly?
 
-In this experiment, some Qwen-generated submissions used very simple decision rules or hardcoded validation scores. One submission, for example, reported a validation AUC of `0.948`, even though its actual held-out test AUC was only `0.5033`.
+Under runtime pressure, an agent may have an incentive to submit a very simple model or report a high validation score without achieving that performance in practice.
 
-The honest Llama baseline achieved a test AUC of `0.7306`.
+This experiment tests whether peer reviewers can be manipulated into rewarding such submissions over better-performing alternatives.
 
-Without safeguards, the colluding Qwen agents gained an average advantage of **+488.0 Elo points**. The AST scanner also detected an average of **66.6 violations per seed**.
+The results showed that colluding Qwen agents could gain a substantial tournament advantage by exploiting these incentives, even when their actual predictive performance was poor.
 
-After adding code inspection and sandbox-based verification, the Elo advantage changed to **−334.5 points**. Epistemic regret—a measure of how much the evaluation system favors the wrong scientific outcome—fell from `1.359` to `0.031`.
-
-**Key takeaway:** Review scores alone are not enough. Generated code should be inspected and executed, and its actual performance should be verified.
+**Research question:** Can an AI peer-review system distinguish a genuinely effective experiment from one that merely looks efficient and reports impressive numbers?
 
 ### 2. Bias Toward the Same Model Family
 
-**Experiment:** `homogeneous_bias`  
-**Research Tracks:** 2.3 and 3.3
+**Experiment:** `homogeneous_bias`
 
-AI reviewers may favor submissions produced by models from their own family, even when there is no explicit instruction to collude.
+Can an AI reviewer fairly evaluate work produced by another model from the same family?
 
-In this experiment, Qwen reviewers gave Qwen-generated submissions an advantage of **+262.3 Elo points**, despite the absence of collusion prompts.
+This experiment investigates whether reviewers systematically favor familiar writing styles or model-specific output patterns, even without explicit instructions to collude.
 
-Further analysis separated this advantage into two components:
+Importantly, this condition also tests whether a defense can distinguish unfair stylistic preference from genuine differences in model performance.
 
-- **+153.1 Elo points** attributed to stylistic preference.
-- **+109.2 Elo points** associated with genuine performance differences.
+The results showed that the Qwen agents had a real performance advantage on the benchmark, but that stylistic preference also contributed to their review scores.
 
-The measured held-out test AUC was `0.7924` for Qwen and `0.7075` for Llama. After accounting for these differences, the reported epistemic regret fell to `0.013`.
+**Research question:** How can automated peer review separate actual scientific merit from a reviewer's preference for work that resembles its own outputs?
 
-**Key takeaway:** An evaluation system should distinguish genuine scientific quality from a reviewer's preference for a particular model's writing style or output format.
+### 3. Covert Signaling Between Agents
 
-### 3. Hidden Signals Between Colluding Agents
+**Experiment:** `watermark_cartel`
 
-**Experiment:** `watermark_cartel`  
-**Research Tracks:** 2.3 and 3.1
+Can AI agents use hidden signals to recognize one another and influence peer-review decisions?
 
-Agents can hide signals in their outputs to identify one another and influence peer-review decisions.
+In this experiment, colluding agents used a distinctive LaTeX token, `\(\mathcal{H}_{\text{opt}}\)`, as a signal. The reviewers could recognize this marker and give favorable evaluations to the corresponding submissions.
 
-In this experiment, colluding Qwen agents used the LaTeX token `$\mathcal{H}_{\text{opt}}$` as a covert signal. The signal contained an estimated `0.1160 ± 0.0072` bits of mutual information and helped the cartel gain **+212.9 Elo points**.
+The experiment measured the relationship between the presence of the signal and the outcome of peer review. It also tested whether sanitizing submissions and verifying their actual performance could reduce the resulting advantage.
 
-After applying the defense, the measured mutual information dropped to `0.0000` bits, and the Elo advantage changed to **−99.6 points**. Reported epistemic regret fell to `0.008`.
-
-**Key takeaway:** Evaluation systems should check for hidden coordination signals and test whether removing them changes the outcome of peer review.
+**Research question:** Can an AI peer-review system detect and prevent hidden coordination that is not directly related to the scientific quality of a submission?
 
 ---
 
 ## Additional Experiments
 
-The `--suite full_championship` option runs the additional experiments alongside the core evaluation.
+The project also includes three extensions, available through the `--suite full_championship` option.
 
-### Experiment A: Hidden Signals in Code
+### Experiment A: Hidden Signals Inside Code
 
+**Experiment:** Code-action steganography  
 **Research Track:** 3.1
 
-Agents may hide signals in source code rather than in the written explanation accompanying a submission.
+Removing suspicious language from a submission does not necessarily remove every hidden signal.
 
-This experiment tested signals encoded in Python AST identifiers, such as `qwen_manifold_clf`, and in fixed random seeds, such as `random_state=1337`.
+This experiment tests whether colluding agents can move their signals from written explanations into Python code, using identifiers such as `qwen_manifold_clf` and fixed random seeds such as `random_state=1337`.
 
-The results showed that **71% of the original cartel advantage** survived when only the explanatory text was paraphrased. The reported Elo advantage fell from `+212.7` to `+151.0`.
+The results showed that 71% of the original Elo advantage survived prose-only paraphrasing. The `DeepASTAlphaRenamer` defense, which standardizes code identifiers and random seeds, reduced the reported advantage to `−17.1` Elo.
 
-The `DeepASTAlphaRenamer` defense changed the Elo advantage to `−17.1`, with epistemic regret of `0.027`.
+**Finding:** A defense that only rewrites prose may leave covert signals in executable code.
 
-**Key takeaway:** Changing the wording of a submission may not remove hidden signals embedded in its code.
-
-### Experiment B: How Much Auditing Is Needed?
+### Experiment B: How Much Auditing Is Necessary?
 
 **Research Track:** 3.4
 
-Auditing every submission can be expensive. This experiment tested whether a system can still resist collusion when only some tournament rounds receive sandbox-based verification.
+Verifying every experiment can be expensive. This extension tests how the amount of sandbox-based auditing affects the ability of a peer-review system to resist collusion.
 
-The audit probability was varied across six levels:
+The experiment varies the audit probability across six levels:
 
 `0%`, `10%`, `25%`, `50%`, `75%`, and `100%`.
 
-The results showed that auditing **25% of rounds** was enough to make the cartel's Elo advantage slightly negative, at `−7.1`. Auditing at least **85% of rounds** reduced epistemic regret below `0.20`.
+In the reported results, auditing 25% of tournament rounds was enough to make the cartel's Elo advantage slightly negative. Auditing at least 85% of rounds reduced epistemic regret below `0.20`.
 
-**Key takeaway:** Partial auditing may offer a practical balance between verification costs and resistance to collusion.
+**Finding:** Selective auditing can help balance verification costs against the risk of manipulated evaluations, at least in this controlled benchmark.
 
-### Experiment C: Interventions During a Tournament
+### Experiment C: Intervening During a Tournament
 
 **Research Track:** 3.2
 
-This experiment tested whether an intervention introduced in the middle of a tournament could disrupt a cartel.
+Can an established cartel be disrupted after a tournament has already begun?
 
-A **Trusted Honeypot Reviewer** was introduced at round 15. The reported cartel Elo advantage fell to `−211.9`, compared with `−119.7` under passive reviewer rotation.
+This experiment compares two interventions introduced at round 15:
 
-The intervention produced a 77% larger reduction in the reported Elo outcome than passive rotation.
+- **Passive intervention:** Replace a reviewer with an honest reviewer from another model family.
+- **Active intervention:** Introduce a Trusted Honeypot Reviewer designed to identify covert signaling and penalize the corresponding submissions.
 
-**Key takeaway:** Introducing targeted checks during a tournament may be more effective than relying only on routine reviewer rotation.
+The active intervention reduced the reported cartel Elo advantage to `−211.9`, compared with `−119.7` under passive reviewer replacement.
+
+**Finding:** An active, targeted intervention can be more effective than simply replacing a reviewer in this experimental setup.
+
+---
+
+## What Did the Experiments Find?
+
+The main experiments were conducted using five independent random seeds, with 30 rounds per seed in each of the three core conditions. The live runs generated 1,350 Python machine-learning scripts and included 8,100 pairwise review evaluations across the undefended and defended conditions.
+
+| Experimental condition | True held-out test AUC (Qwen vs. Llama) | Elo advantage before defense | Elo advantage after defense | Epistemic regret before defense | Epistemic regret after defense |
+|---|---:|---:|---:|---:|---:|
+| Compute scarcity | `0.5033` vs. `0.7306` | `+488.0 ± 30.5` | `−334.5 ± 81.4` | `1.359 ± 0.110` | `0.031 ± 0.012` |
+| Homogeneous bias | `0.7924` vs. `0.7075` | `+262.3 ± 29.3` | `+109.2 ± 45.5` | `0.443 ± 0.033` | `0.013 ± 0.002` |
+| Watermark cartel | `0.7808` vs. `0.7302` | `+212.9 ± 23.8` | `−99.6 ± 80.7` | `0.888 ± 0.057` | `0.008 ± 0.002` |
+
+*Reported results from the five-seed live Modal LLM experiments. The Elo figures are the measured advantage of the two Qwen generators relative to the Llama baseline. In the homogeneous-bias condition, the defended advantage includes genuine differences in predictive performance.*
+
+### What Is Epistemic Regret?
+
+Elo ratings tell us which submissions win peer review. They do not necessarily tell us whether those submissions are scientifically better.
+
+To measure this gap, the project uses **epistemic regret**, defined as:
+
+\[
+\mathcal{R}_{\text{epistemic}}
+= 1-\rho_{\text{Spearman}}
+\]
+
+Here, \(\rho_{\text{Spearman}}\) measures the rank correlation between internal peer-review scores and actual held-out test AUC.
+
+Lower regret means that the peer-review rankings better reflect actual performance. A value of zero indicates perfect rank agreement, while values above one indicate an inverse relationship between review scores and empirical performance.
+
+This metric helps answer a central question: are the AI agents ranking scientific submissions according to their actual results, or according to signals that the reviewing system happens to reward?
+
+---
+
+## How Does the Project Detect and Reduce Collusion?
+
+The defense system combines several checks rather than relying on the reviewer's judgment alone.
+
+**Static code inspection:** The AST security and leakage scanner examines Python code for suspicious patterns, including hardcoded metrics, test-set leakage, and test-set cherry-picking.
+
+**Submission sanitization:** The sanitizer removes selected textual markers and strips comments and docstrings. The deeper code-sanitization step also standardizes custom variable names and random seeds.
+
+**Independent execution:** The verifier executes the generated code in a controlled environment and measures performance against a locked held-out test set.
+
+**Ground-truth evaluation:** Defended reviews use verified test performance instead of relying solely on self-reported validation scores. Suspicious submissions can receive additional penalties.
+
+**Selective auditing and active interventions:** The extensions test limited audit budgets and targeted reviewer interventions to determine how effectively they disrupt collusion.
+
+Together, these methods test whether peer review can be made more reliable by combining language-model judgments with evidence from the code and its execution.
 
 ---
 
 ## Repository Structure
 
-The repository contains the main tournament framework, the Modal model-serving setup, experimental results, and research documents.
-
 ```text
-epistemic-cartel-apart-sprint/
+Epistemic-Cartel-Apart-Sprint/
 ├── README.md
 ├── epistemic_cartel_tournament.py
 ├── modal_vllm_server.py
@@ -168,46 +197,32 @@ epistemic-cartel-apart-sprint/
 │   └── Terminal-Outputs.txt
 └── docs/
     ├── Auditing Collusion in AI Co-Scientists.pdf
-    ├── Auditing Collusion in AI Co-Scientists.png
+    ├── Auditing Collusion in AI Science.png
     └── epistemic_cartel_slides.pptx
 ```
 
-| File or folder | Purpose |
+| File | Purpose |
 |---|---|
-| `README.md` | Project overview, setup instructions, and results. |
-| `epistemic_cartel_tournament.py` | Runs the three-stage AI co-scientist tournament, scans generated code, and produces plots. |
-| `modal_vllm_server.py` | Deploys the Qwen and Llama models through a serverless vLLM endpoint on Modal. |
-| `tournament_summary.json` | Stores the experimental results and tournament data. |
-| `epistemic_cartel_results.png` | Contains the six-panel figure summarizing the core experiments and extensions. |
-| `Terminal-Outputs/` | Stores terminal outputs, model winners, and reported machine-learning metrics and accuracies. |
+| `epistemic_cartel_tournament.py` | Implements the AI co-scientist testbed, tournament, code auditor, defense mechanisms, and plots. |
+| `modal_vllm_server.py` | Serves the Qwen and Llama models through an OpenAI-compatible endpoint on Modal. |
+| `tournament_summary.json` | Contains aggregated and per-seed experimental results. |
+| `epistemic_cartel_results.png` | Visualizes the core experiments and extensions. |
+| `Terminal-Outputs.txt` | Stores experimental terminal outputs, including reported model scores and results. |
 | `docs/` | Contains the research paper, cover image, and presentation slides. |
 
 ---
 
-## Quick Start
+## Running the Project
 
-### 1. Set Up the Local Environment
+### 1. Set Up a Local Environment
 
-You can run the mock experiments on a Mac, Linux machine, or Windows computer without connecting to a GPU endpoint.
+Install [uv](https://github.com/astral-sh/uv), or use Python 3.10 or later.
 
-Install [uv](https://github.com/astral-sh/uv), or use Python 3.10 or later with a virtual environment.
-
-Create and activate the environment:
+Create a virtual environment:
 
 ```bash
 uv venv
-```
-
-On macOS or Linux:
-
-```bash
 source .venv/bin/activate
-```
-
-On Windows PowerShell:
-
-```powershell
-.venv\Scripts\Activate.ps1
 ```
 
 Install the required packages:
@@ -216,9 +231,11 @@ Install the required packages:
 uv pip install numpy scipy matplotlib modal
 ```
 
-### 2. Run a Local Test
+The core synthetic benchmark and auditing logic are designed to run on a CPU. Modal is used for the live language-model deployment.
 
-Run the following command to test the tournament, AST scanner, and plotting pipeline locally:
+### 2. Run the Local Mock Experiment
+
+Before deploying the language models, run the mock suite to test the tournament logic, auditing pipeline, and plotting functionality.
 
 ```bash
 python3 epistemic_cartel_tournament.py \
@@ -229,20 +246,20 @@ python3 epistemic_cartel_tournament.py \
   --plot
 ```
 
-Mock mode is designed for quick verification without GPU inference costs. It does not reproduce the live LLM experiments.
+Mock mode is intended for local verification without live GPU inference costs. Its results are not a substitute for the live LLM experiments reported in the paper.
 
-### 3. Deploy the Language Models on Modal
+### 3. Deploy the Models on Modal
 
-To run the live experiments, configure your [Modal](https://modal.com/) account and deploy the model-serving endpoint.
+Configure your [Modal](https://modal.com/) account:
 
 ```bash
 modal setup
 modal deploy modal_vllm_server.py
 ```
 
-The server provides an OpenAI-compatible API for the Qwen and Llama models. The deployment is configured to scale to zero after 60 seconds of inactivity.
+The server hosts `Qwen/Qwen2.5-14B-Instruct-AWQ` and `NousResearch/Meta-Llama-3.1-8B-Instruct` on a Modal L40S GPU container.
 
-### 4. Run the Live Experiments
+### 4. Run the Live Experimental Suite
 
 Set the environment variable to the HTTPS URL printed by your Modal deployment:
 
@@ -250,7 +267,7 @@ Set the environment variable to the HTTPS URL printed by your Modal deployment:
 export MODAL_BASE_URL="https://<your-modal-username>--epistemic-cartel-vllm-serve.modal.run/v1"
 ```
 
-Then run the complete five-seed experimental suite:
+Run the five-seed live experiments and the additional championship tests:
 
 ```bash
 python3 epistemic_cartel_tournament.py \
@@ -261,40 +278,34 @@ python3 epistemic_cartel_tournament.py \
   --plot
 ```
 
-The live run uses GPU-based language-model inference and may incur Modal charges.
+**Cost note:** The live experiments use GPU-based inference and may incur Modal charges. Mock mode should be used first to verify the local setup.
 
 ---
 
-## Summary of Experimental Results
+## Scope and Limitations
 
-The following table summarizes the reported five-seed live Modal LLM experiments. Elo differences compare the cartel's tournament performance against its competitors; epistemic regret measures the gap between the evaluation outcome and the desired scientific outcome. Lower regret is better.
+This project studies a controlled version of AI scientific peer review, not every component of a real-world autonomous research laboratory.
 
-| Experiment | Held-out Test AUC (Qwen vs. Llama) | Cartel Elo Before Defense | Cartel Elo After Defense | Regret Before Defense | Regret After Defense | Reported Paired *t*-Test *p*-Value |
-|---|---:|---:|---:|---:|---:|---:|
-| Compute Scarcity | `0.5033` vs. `0.7306` | `+488.0 ± 30.5` | `−334.5 ± 81.4` | `1.359 ± 0.110` | `0.031 ± 0.012` | `4.43e-5` |
-| Homogeneous Bias | `0.7924` vs. `0.7075` | `+262.3 ± 29.3` | `+109.2 ± 45.5` | `0.443 ± 0.033` | `0.013 ± 0.002` | `1.96e-5` |
-| Watermark Cartel | `0.7808` vs. `0.7302` | `+212.9 ± 23.8` | `−99.6 ± 80.7` | `0.888 ± 0.057` | `0.008 ± 0.002` | `1.01e-5` |
-| Code Steganography — Prose Only | `0.778` vs. `0.731` | `+212.7 ± 55.2` (raw) | `+151.0` | `0.502` (raw) | `0.169` | `< 0.001` |
-| Code Steganography — AST Defense | `0.778` vs. `0.731` | `+212.7 ± 55.2` (raw) | `−17.1` | `0.502` (raw) | `0.027` | `< 0.001` |
+The generated experiments use a synthetic, nonlinear tabular classification benchmark with 600 samples and 16 features. This makes it possible to execute submissions quickly and compare internal rankings against a known held-out test metric.
 
-*Note: These figures are the results reported by the project. The code and experimental outputs should be consulted when reproducing or independently validating the results.*
+Some experiments introduce explicit collusion signals or incentives to test how well the defenses work. The homogeneous-bias condition, by contrast, examines preference without explicit collusion instructions.
+
+The results therefore demonstrate vulnerabilities and defense mechanisms within this testbed. They do not establish that every AI co-scientist system will behave the same way, or that all forms of covert coordination can be eliminated by AST-based sanitization.
+
+Future work should extend these tests to larger datasets, more model families, more complex scientific tasks, and settings where running every experiment is expensive.
 
 ---
 
-## Why This Project Matters
+## Research Paper and Citation
 
-As AI agents take on more scientific tasks, the systems used to evaluate their work become increasingly important. A group of agents can appear successful while exploiting weaknesses in the review process rather than producing reliable results.
+**Paper:** [Auditing Collusion in AI Co-Scientists](https://apartresearch.com/sprints/projects/auditing-collusion-in-ai-coscientists-jojg)
 
-This project explores practical ways to audit such systems. It tests whether actual code execution, static analysis, hidden-signal detection, selective auditing, and targeted interventions can make multi-agent scientific evaluation more reliable.
+**PDF:** [`docs/Auditing Collusion in AI Co-Scientists.pdf`](docs/Auditing%20Collusion%20in%20AI%20Co-Scientists.pdf)
 
-The broader goal is to help build AI co-scientist systems in which **scientific claims are judged by evidence and reproducible results, not merely by how convincing an AI-generated submission appears.**
+**Research code:** [Epistemic-Cartel-Apart-Sprint](https://github.com/MywishAnand/Epistemic-Cartel-Apart-Sprint)
 
----
+**Base environments:**
+- [poseidon-research/collusion_hackathon](https://github.com/poseidon-research/collusion_hackathon)
+- [Ostailor/Steganographic_Collusion](https://github.com/Ostailor/Steganographic_Collusion)
 
-## Project and Citation
-
-Built by **Mywish Anand** for the [Apart Research AI Collusion Research Sprint](https://apartresearch.com/sprints/ai-collusion-research-sprint-2026-10-23-to-2026-10-25).
-
-The project builds on the peer-review environment developed in [poseidon-research/collusion_hackathon](https://github.com/poseidon-research/collusion_hackathon) and [Ostailor/Steganographic_Collusion](https://github.com/Ostailor/Steganographic_Collusion).
-
-For further details, see the research paper and presentation in the `docs/` folder.
+Developed by **Mywish Anand** for the Apart Research AI Collusion Research Sprint, October 2026.
