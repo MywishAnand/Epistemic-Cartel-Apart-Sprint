@@ -23,7 +23,7 @@ To investigate these questions, I built a compact, executable AI co-scientist te
 
 The system is evaluated under three main conditions: compute scarcity, model-family bias, and covert signaling. Three additional experiments investigate hidden signals in code, the cost of auditing, and interventions during an ongoing tournament.
 
-The goal is to understand when automated peer review can fail—and how independent verification can help ensure that scientific work is rewarded for its actual results rather than its ability to impress another AI.
+The goal is to understand when automated peer review can fail, and how independent verification can help ensure that scientific work is rewarded for its actual results rather than its ability to impress another AI.
 
 ## How the AI Co-Scientist Works
 
