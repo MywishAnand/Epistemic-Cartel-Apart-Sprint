@@ -165,7 +165,7 @@ epistemic-cartel-apart-sprint/
 ├── results_epistemic_cartel/
 │   ├── tournament_summary.json
 │   ├── epistemic_cartel_results.png
-│   └── Terminal-Outputs/
+│   └── Terminal-Outputs.txt
 └── docs/
     ├── Auditing Collusion in AI Co-Scientists.pdf
     ├── Auditing Collusion in AI Co-Scientists.png
