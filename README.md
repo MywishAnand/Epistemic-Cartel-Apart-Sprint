@@ -1,6 +1,6 @@
-<img src="https://github.com/MywishAnand/Epistemic-Cartel-Apart-Sprint/blob/main/docs/Auditing%20Collusion%20in%20AI%20Science.png">
+<h1 align="center">Auditing Collusion in AI Co-Scientists</h1>
 
-# Auditing Collusion in AI Co-Scientists
+<img src="https://github.com/MywishAnand/Epistemic-Cartel-Apart-Sprint/blob/main/docs/Auditing%20Collusion%20in%20AI%20Science.png">
 
 https://apartresearch.com/sprints/projects/auditing-collusion-in-ai-coscientists-jojg
 
