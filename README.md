@@ -1,6 +1,6 @@
-![Auditing Collusion in AI Co-Scientists](docs/Auditing%20Collusion%20in%20AI%20Co-Scientists.png)
+<img src="https://github.com/MywishAnand/Epistemic-Cartel-Apart-Sprint/blob/main/docs/Auditing%20Collusion%20in%20AI%20Science.png">
 
-# [Auditing Collusion in AI Co-Scientists](https://apartresearch.com/sprints/projects/auditing-collusion-in-ai-coscientists-jojg)
+<h1 align="center"><a href= "https://apartresearch.com/sprints/projects/auditing-collusion-in-ai-coscientists-jojg">Auditing Collusion in AI Co-Scientists</a></h1>
 
 **Apart Research AI Collusion Research Sprint — October 2026**
 
