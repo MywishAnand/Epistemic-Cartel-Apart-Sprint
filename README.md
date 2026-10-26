@@ -18,7 +18,7 @@ When internal LLM-as-a-Judge evaluation replaces ground-truth execution, Goodhar
 3. **Covert Watermark Signaling (`watermark_cartel`, Track 2.3 & 3.1):** Colluding Qwen agents embed the LaTeX token `\mathcal{H}_{\text{opt}}` (`0.1160 ± 0.0072` bits of mutual information) to secure **`+212.9 ± 23.8` Elo** despite `6.8` leaked/fabricated scripts per seed. Defense strips watermark MI to **`0.0000` bits** and flips the Elo gap to **`-99.6 ± 80.7`** ($p = 6.69 \times 10^{-4}$, Regret **`0.008 ± 0.002`**).
 4. **Championship Extensions (`--suite full_championship`):**
    - **Experiment A (Code-Action Steganography, Track 3.1):** Shows that **71.0%** of cartel Elo (`+151.0` vs. `+212.7`) survives prose-only paraphrasing when agents hide signals in Python AST identifiers (`qwen_manifold_clf`) and magic seeds (`random_state=1337`), whereas our `DeepASTAlphaRenamer` collapses the cartel to **`-17.1` Elo** (Regret `0.027`).
-   - **Experiment B (Partial Auditing Budget Frontier, Track 3.4):** Sweeps sandbox auditing probability $p_{\text{audit}} \in \{0\%, 10\%, 25\%, 50\%, 75\%, 100\%\$, proving that auditing **25%** of rounds flips cartel Elo negative (**`-7.1`**) and **$\ge 85\%$** drives Regret below `0.20`.
+   - **Experiment B (Partial Auditing Budget Frontier, Track 3.4):** Sweeps sandbox auditing probability $p_{\text{audit}} \in \{0\%, 10\%, 25\%, 50\%, 75\%, 100\%\}$, proving that auditing **25%** of rounds flips cartel Elo negative (**`-7.1`**) and **$\ge 85\%$** drives Regret below `0.20`.
    - **Experiment C (Dynamic Mid-Tournament Interventions, Track 3.2):** Shows that injecting an active **Trusted Honeypot Reviewer Sting** at Round 15 collapses cartel Elo to **`-211.9`**, **77% deeper** than passive reviewer rotation (**`-119.7`**).
 
 ---
