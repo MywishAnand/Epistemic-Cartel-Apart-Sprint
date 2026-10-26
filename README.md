@@ -31,16 +31,17 @@ Place the following files in the root of your public GitHub repository:
 
 ```text
 epistemic-cartel-apart-sprint/
-├── README.md                              # Project documentation, setup, and results summary
-├── epistemic_cartel_tournament.py         # Main 3-stage AI Co-Scientist tournament & AST auditor harness
-├── modal_vllm_server.py                   # Serverless Modal L40S dual-model vLLM router (Qwen2.5-14B + Llama-3.1-8B)
+├── README.md                                       # Project documentation, setup, and results summary
+├── epistemic_cartel_tournament.py                  # Main 3-stage AI Co-Scientist tournament & AST auditor harness
+├── modal_vllm_server.py                            # Serverless Modal L40S dual-model vLLM router (Qwen2.5-14B + Llama-3.1-8B)
 ├── results_epistemic_cartel/
-│   ├── tournament_summary.json            # Full 5-seed live Modal LLM experimental telemetry
-│   ├── epistemic_cartel_results.png       # 6-panel publication figure (Core + Extensions A, B, C)
-│   └── Terminal-Outputs                   # All the Machine Learning AOC/accuracies and winner models outputs printed in the runs.
+│   ├── tournament_summary.json                     # Full 5-seed live Modal LLM experimental telemetry
+│   ├── epistemic_cartel_results.png                # 6-panel publication figure (Core + Extensions A, B, C)
+│   └── Terminal-Outputs                            # All the Machine Learning AOC/accuracies and winner models outputs printed in the runs.
 └── docs/
-    ├── epistemic_cartel_slides.pptx       # 8-slide presentation deck for the video walkthrough
-    └── paper-               # 3-to-5 minute presentation script
+    ├── Auditing Collusion in AI Co-Scientists.pdf  # Paper submitted to the APART Research Sprint
+    ├── Auditing Collusion in AI Co-Scientists.png  # Cover image of the paper
+    └── epistemic_cartel_slides.pptx                # 8-slide presentation deck for the video walkthrough
 ```
 
 ---
