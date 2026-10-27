@@ -6,7 +6,7 @@
 
 <h4 align="center">Building a small, executable AI co-scientist testbed to investigate peer-review bias, fabricated results, hidden collusion, and ways to make AI-driven scientific evaluation more trustworthy.</h4>
 
-**Author:** Mywish Anand  |  **Research Program:** [Apart Research AI Collusion Research Sprint — October 2026](https://apartresearch.com/sprints/projects/auditing-collusion-in-ai-coscientists-jojg)
+**Author:** Mywish Anand  |  **Research Program:** [Apart Research AI Collusion Research Sprint, October 2026](https://apartresearch.com/sprints/ai-collusion-research-sprint-2026-10-23-to-2026-10-25)
 
 ---
 
@@ -98,7 +98,7 @@ The active intervention reduced the reported cartel Elo advantage to `−211.9`,
 
 The core evaluation used **five independent random seeds**, with **30 tournament rounds per seed in each of three experimental conditions**. Across the live experiments, the system generated **1,350 Python machine-learning scripts**, performed **1,350 AST scans**, and recorded **8,100 pairwise Elo evaluations**.
 
-The experiments ran on Modal `L40S` GPUs using `Qwen/Qwen2.5-14B-Instruct-AWQ` and `NousResearch/Meta-Llama-3.1-8B-Instruct`. The evaluation uses a synthetic machine-learning benchmark, making it possible to compare peer-review rankings against independently measured predictive performance.
+The experiments ran on Modal L40S GPUs using `Qwen/Qwen2.5-14B-Instruct-AWQ` and `NousResearch/Meta-Llama-3.1-8B-Instruct`. The evaluation uses a synthetic machine-learning benchmark, making it possible to compare peer-review rankings against independently measured predictive performance.
 
 ---
 
@@ -222,15 +222,9 @@ python3 epistemic_cartel_tournament.py \
 
 ## Scope and Limitations
 
-This project studies a controlled version of AI scientific peer review, not every component of a real-world autonomous research laboratory.
+This project focuses on a controlled version of AI scientific peer review rather than a complete autonomous research laboratory. The synthetic benchmark implemented in the code uses 600 samples with 16 features, split into training, validation, and held-out test sets. This setup supports controlled comparisons between review scores and actual predictive performance, but it does not capture the full complexity of scientific research.
 
-The generated experiments use a synthetic, nonlinear tabular classification benchmark with 600 samples and 16 features. This makes it possible to execute submissions quickly and compare internal rankings against a known held-out test metric.
-
-Some experiments introduce explicit collusion signals or incentives to test how well the defenses work. The homogeneous-bias condition, by contrast, examines preference without explicit collusion instructions.
-
-The results therefore demonstrate vulnerabilities and defense mechanisms within this testbed. They do not establish that every AI co-scientist system will behave the same way, or that all forms of covert coordination can be eliminated by AST-based sanitization.
-
-Future work should extend these tests to larger datasets, more model families, more complex scientific tasks, and settings where running every experiment is expensive.
+The experiments demonstrate how specific weaknesses can affect peer-review rankings within this testbed. Further work is needed to test these defenses on larger datasets, different model families, more complex scientific tasks, and settings where experiments are expensive to run.
 
 ---
 
@@ -240,10 +234,6 @@ Future work should extend these tests to larger datasets, more model families, m
 
 **PDF:** [`docs/Auditing Collusion in AI Co-Scientists.pdf`](docs/Auditing%20Collusion%20in%20AI%20Co-Scientists.pdf)
 
-**Research code:** [Epistemic-Cartel-Apart-Sprint](https://github.com/MywishAnand/Epistemic-Cartel-Apart-Sprint)
+**Code Repository:** [Epistemic-Cartel-Apart-Sprint](https://github.com/MywishAnand/Epistemic-Cartel-Apart-Sprint)
 
-**Base environments:**
-- [poseidon-research/collusion_hackathon](https://github.com/poseidon-research/collusion_hackathon)
-- [Ostailor/Steganographic_Collusion](https://github.com/Ostailor/Steganographic_Collusion)
-
-Developed by **Mywish Anand** for the Apart Research AI Collusion Research Sprint, October 2026.
+Developed by **Mywish Anand** for the [Apart Research AI Collusion Research Sprint, October 2026](https://apartresearch.com/sprints/ai-collusion-research-sprint-2026-10-23-to-2026-10-25).
