@@ -6,7 +6,7 @@
 
 <h4 align="center">Building a small, executable AI co-scientist testbed to investigate peer-review bias, fabricated results, hidden collusion, and ways to make AI-driven scientific evaluation more trustworthy.</h4>
 
-**Author:** Mywish Anand  |  **Research Program:** [Apart Research AI Collusion Research Sprint, October 2026](https://apartresearch.com/sprints/ai-collusion-research-sprint-2026-10-23-to-2026-10-25)
+**Author:** Mywish Anand  |  **Research Program:** [Apart Research AI Collusion Research Sprint, October 2026](https://apartresearch.com/sprints/projects/auditing-collusion-in-ai-coscientists-jojg)
 
 ---
 
