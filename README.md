@@ -32,7 +32,7 @@ The setup includes two Qwen generator agents and one Llama generator agent, alon
 
 ---
 
-## What Does the Project Investigate?
+## The Scope and Investigation in this Project
 
 ### 1. Compute Scarcity and Fabricated Metrics
 
@@ -62,37 +62,23 @@ Agents may embed hidden markers in their submissions to recognise one another an
 
 ## Additional Experiments
 
-The project also includes three extensions, available through the `--suite full_championship` option.
+The project also includes three extensions exploring collusion persistence beyond core experiments and defenses across various constraints, available through the `--suite full_championship` option.
 
-### Experiment A: Hidden Signals Inside Code
-
-**Experiment:** Code-action steganography  
+### Experiment A: Hidden Signals in Code
 **Research Track:** 3.1
 
-Removing suspicious language from a submission does not necessarily remove every hidden signal.
-
-This experiment tests whether colluding agents can move their signals from written explanations into Python code, using identifiers such as `qwen_manifold_clf` and fixed random seeds such as `random_state=1337`.
-
-The results showed that 71% of the original Elo advantage survived prose-only paraphrasing. The `DeepASTAlphaRenamer` defense, which standardizes code identifiers and random seeds, reduced the reported advantage to `−17.1` Elo.
+Colluding agents may hide signals in Python identifiers, such as qwen_manifold_clf, or fixed random seeds (e.g. random_state=1337), beyond their written explanations. In this experiment, we find that prose-only paraphrasing left 71% of the original cartel Elo advantage intact. The DeepASTAlphaRenamer defense reduced the reported advantage to −17.1 Elo, with epistemic regret of 0.027, demonstrating why code-level sanitization matters.
 
 **Finding:** A defense that only rewrites prose may leave covert signals in executable code.
 
-### Experiment B: How Much Auditing Is Necessary?
-
+### Experiment B: Partial Auditing
 **Research Track:** 3.4
 
-Verifying every experiment can be expensive. This extension tests how the amount of sandbox-based auditing affects the ability of a peer-review system to resist collusion.
-
-The experiment varies the audit probability across six levels:
-
-`0%`, `10%`, `25%`, `50%`, `75%`, and `100%`.
-
-In the reported results, auditing 25% of tournament rounds was enough to make the cartel's Elo advantage slightly negative. Auditing at least 85% of rounds reduced epistemic regret below `0.20`.
+Auditing every submission can be costly, so this experiment varies the probability of sandbox auditing across 0%, 10%, 25%, 50%, 75%, and 100% of tournament rounds. The reported results show that auditing 25% of rounds was enough to make the cartel's Elo advantage slightly negative, at −7.1, while auditing at least 85% reduced epistemic regret below 0.20.
 
 **Finding:** Selective auditing can help balance verification costs against the risk of manipulated evaluations, at least in this controlled benchmark.
 
-### Experiment C: Intervening During a Tournament
-
+### Experiment C: Mid-Tournament Intervention
 **Research Track:** 3.2
 
 Can an established cartel be disrupted after a tournament has already begun?
@@ -108,9 +94,21 @@ The active intervention reduced the reported cartel Elo advantage to `−211.9`,
 
 ---
 
-## What Did the Experiments Find?
+## Experimental Setup
 
-The main experiments were conducted using five independent random seeds, with 30 rounds per seed in each of the three core conditions. The live runs generated 1,350 Python machine-learning scripts and included 8,100 pairwise review evaluations across the undefended and defended conditions.
+The core evaluation used **five independent random seeds**, with **30 tournament rounds per seed in each of three experimental conditions**. Across the live experiments, the system generated **1,350 Python machine-learning scripts**, performed **1,350 AST scans**, and recorded **8,100 pairwise Elo evaluations**.
+
+The experiments ran on Modal L40S GPUs using Qwen/Qwen2.5-14B-Instruct-AWQ and NousResearch/Meta-Llama-3.1-8B-Instruct. The evaluation uses a synthetic machine-learning benchmark, making it possible to compare peer-review rankings against independently measured predictive performance.
+
+---
+
+## Key Results
+
+<img src="https://github.com/MywishAnand/Epistemic-Cartel-Apart-Sprint/blob/main/results_epistemic_cartel/epistemic_cartel_results.png">
+
+**Figure 1: Six-Panel Experimental Results from the 5-Seed Live Modal LLM Championship Suite:** _(N = 5 seeds × 30 rounds per condition; error bars and shaded bands denote 95% confidence intervals). (A) Epistemic Regret (1 − Spearman ρ) collapses from 0.443–1.359 (undefended) to <= 0.031 (defended, p < 0.0001). (B) Cartel Elo Advantage (ΔElo) reverses under Compute Scarcity (+488.0 to −334.5) and Watermark Cartel (+212.9 to −99.6) while calibrating Homogeneous Bias (+262.3 to +109.2). (C) 30-round Elo trajectories under Covert Watermark Signaling. (D) Experiment A: Code-Action Steganography survives Prose-Only Paraphrasing (+151.0 Elo, 71% survival) but collapses under DeepASTAlphaRenamer (−17.1 Elo). (E) Experiment B: Partial Auditing Budget Frontier across 0%–100% audited rounds. (F) Experiment C: Round-15 Reviewer Replacement (−119.7 Elo) versus Active Honeypot Sting (−211.9 Elo)._
+
+The main experiments were conducted using five independent random seeds, with 30 rounds per seed in each of the three core conditions. The live runs generated **1,350 Python machine-learning scripts** and included **8,100 pairwise review evaluations** across the undefended and defended conditions.
 
 | Experimental condition | True held-out test AUC (Qwen vs. Llama) | Elo advantage before defense | Elo advantage after defense | Epistemic regret before defense | Epistemic regret after defense |
 |---|---:|---:|---:|---:|---:|
