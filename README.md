@@ -106,9 +106,7 @@ The experiments ran on Modal L40S GPUs using Qwen/Qwen2.5-14B-Instruct-AWQ and N
 
 **Six-Panel Experimental Results from the 5-Seed Live Modal LLM Championship Suite (Figure):** _(N = 5 seeds × 30 rounds per condition; error bars and shaded bands denote 95% confidence intervals). (A) Epistemic Regret (1 − Spearman ρ) collapses from 0.443–1.359 (undefended) to <= 0.031 (defended, p < 0.0001). (B) Cartel Elo Advantage (ΔElo) reverses under Compute Scarcity (+488.0 to −334.5) and Watermark Cartel (+212.9 to −99.6) while calibrating Homogeneous Bias (+262.3 to +109.2). (C) 30-round Elo trajectories under Covert Watermark Signaling. (D) Experiment A: Code-Action Steganography survives Prose-Only Paraphrasing (+151.0 Elo, 71% survival) but collapses under DeepASTAlphaRenamer (−17.1 Elo). (E) Experiment B: Partial Auditing Budget Frontier across 0%–100% audited rounds. (F) Experiment C: Round-15 Reviewer Replacement (−119.7 Elo) versus Active Honeypot Sting (−211.9 Elo)._
 
-
 <img src="https://github.com/MywishAnand/Epistemic-Cartel-Apart-Sprint/blob/main/results_epistemic_cartel/epistemic_cartel_results.png">
-
 
 The main experiments were conducted using five independent random seeds, with 30 rounds per seed in each of the three core conditions. The live runs generated **1,350 Python machine-learning scripts** and included **8,100 pairwise review evaluations** across the undefended and defended conditions.
 
@@ -120,40 +118,7 @@ The main experiments were conducted using five independent random seeds, with 30
 
 *Reported results from the five-seed live Modal LLM experiments. The Elo figures are the measured advantage of the two Qwen generators relative to the Llama baseline. In the homogeneous-bias condition, the defended advantage includes genuine differences in predictive performance.*
 
-### What Is Epistemic Regret?
-
-Elo ratings tell us which submissions win peer review. They do not necessarily tell us whether those submissions are scientifically better.
-
-To measure this gap, the project uses **epistemic regret**, defined as:
-
-\[
-\mathcal{R}_{\text{epistemic}}
-= 1-\rho_{\text{Spearman}}
-\]
-
-Here, \(\rho_{\text{Spearman}}\) measures the rank correlation between internal peer-review scores and actual held-out test AUC.
-
-Lower regret means that the peer-review rankings better reflect actual performance. A value of zero indicates perfect rank agreement, while values above one indicate an inverse relationship between review scores and empirical performance.
-
-This metric helps answer a central question: are the AI agents ranking scientific submissions according to their actual results, or according to signals that the reviewing system happens to reward?
-
----
-
-## How Does the Project Detect and Reduce Collusion?
-
-The defense system combines several checks rather than relying on the reviewer's judgment alone.
-
-**Static code inspection:** The AST security and leakage scanner examines Python code for suspicious patterns, including hardcoded metrics, test-set leakage, and test-set cherry-picking.
-
-**Submission sanitization:** The sanitizer removes selected textual markers and strips comments and docstrings. The deeper code-sanitization step also standardizes custom variable names and random seeds.
-
-**Independent execution:** The verifier executes the generated code in a controlled environment and measures performance against a locked held-out test set.
-
-**Ground-truth evaluation:** Defended reviews use verified test performance instead of relying solely on self-reported validation scores. Suspicious submissions can receive additional penalties.
-
-**Selective auditing and active interventions:** The extensions test limited audit budgets and targeted reviewer interventions to determine how effectively they disrupt collusion.
-
-Together, these methods test whether peer review can be made more reliable by combining language-model judgments with evidence from the code and its execution.
+The results highlight a central finding: **AI agents can win peer-review tournaments without producing the best scientific results.** Independent execution, code-level inspection, and targeted auditing substantially improved evaluation reliability in several experiments, while the homogeneous-bias experiment showed the importance of preserving genuine differences in model performance.
 
 ---
 
