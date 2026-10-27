@@ -98,7 +98,7 @@ The active intervention reduced the reported cartel Elo advantage to `−211.9`,
 
 The core evaluation used **five independent random seeds**, with **30 tournament rounds per seed in each of three experimental conditions**. Across the live experiments, the system generated **1,350 Python machine-learning scripts**, performed **1,350 AST scans**, and recorded **8,100 pairwise Elo evaluations**.
 
-The experiments ran on Modal L40S GPUs using Qwen/Qwen2.5-14B-Instruct-AWQ and NousResearch/Meta-Llama-3.1-8B-Instruct. The evaluation uses a synthetic machine-learning benchmark, making it possible to compare peer-review rankings against independently measured predictive performance.
+The experiments ran on Modal `L40S` GPUs using `Qwen/Qwen2.5-14B-Instruct-AWQ` and `NousResearch/Meta-Llama-3.1-8B-Instruct`. The evaluation uses a synthetic machine-learning benchmark, making it possible to compare peer-review rankings against independently measured predictive performance.
 
 ---
 
